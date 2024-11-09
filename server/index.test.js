@@ -18,8 +18,8 @@ describe('GET tasks',() => {
 })
 
 describe('POST task',() => {
-    const email = 'post23@gmail.com'
-    const password = 'password'
+    const email = 'new9@gmail.com'
+    const password = 'new2002!!'
     insertTestUser(email,password)
     const token = getToken(email)
     it ('should post a task', async () => {
@@ -41,11 +41,26 @@ describe('POST task',() => {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization : token
             },
             body: JSON.stringify({'description': null })
         })
         const data = await response.json()
-        expect(response.status).to.equal(500)
+        expect(response.status).to.equal(400, data.error)
+        expect(data).to.be.an('object')
+        expect(data).to.include.all.keys('error')
+    })
+    it ('should not post a task with zero length description', async () => {
+        const response=await fetch(base_url + '/create', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : token
+            },
+            body: JSON.stringify({'description': '' })
+        })
+        const data = await response.json()
+        expect(response.status).to.equal(400, data.error)
         expect(data).to.be.an('object')
         expect(data).to.include.all.keys('error')
     })
@@ -75,8 +90,8 @@ describe('DELETE task',() => {
 })
 
 describe('POST register',() => {
-    const email = 'register97@gmail.com';
-    const password = 'register82';
+    const email = 'new9@gmail.com';
+    const password = 'new2002!!';
     
     it ('should register with valid email and password', async () => {
         const response = await fetch(base_url + '/user/register', {
@@ -93,11 +108,26 @@ describe('POST register',() => {
         expect(data).to.be.an('object');
         expect(data).to.include.all.keys('id', 'email');
     })
+    it ('should not post a user with less than 8 character password', async() => {
+        const email = 'new9@gmail.com';
+        const password = 'new2002!!';
+        const response = await fetch(base_url + '/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'email': email, 'password': password })
+        });
+        const data = await response.json();
+        expect(response.status).to.equal(400, data.error);
+        expect(data).to.be.an('object');
+        expect(data).to.have.all.keys('error');
+    });
 })
 
 describe('POST login',() => {
-    const email = 'register97@gmail.com';
-    const password = 'register82';
+    const email = 'new9@gmail.com';
+    const password = 'new2002!!';
     insertTestUser(email,password)
     
     it ('should login with valid credentials', async () => {

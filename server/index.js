@@ -22,19 +22,6 @@ app.use((err, req, res, next) => {
 })
  
 
-app.delete('/delete/:id', (req, res) => {
-
-    const id = parseInt (req.params.id)
-    pool.query('delete from task where id = $1',
-    [id],
-    (error, result) => {
-        if (error) {
-        return res.status(500).json({error: error.message})
-        }
-        return res.status(200).json({message: 'Task deleted successfully', id: id})
-        }
-    )
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 })
-
-
-app.listen(port)
