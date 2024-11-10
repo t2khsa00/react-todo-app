@@ -6,7 +6,7 @@ const { sign } = jwt;
 
 
 
-const postRegistartion = async (req, res, next) => {
+const postRegistration = async (req, res, next) => {
    
     try{
         if(!req.body.email || req.body.email.length === 0) 
@@ -52,4 +52,4 @@ const postLogin = async (req, res, next) => {
 }
 
 
-export { postRegistartion  , postLogin };
+export { postRegistration  , postLogin };

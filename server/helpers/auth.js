@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-const { verify } = jwt
 const authorizationRequired = "Authorization Required"
 const invalidCredentials = "Invalid Credentials"
 
